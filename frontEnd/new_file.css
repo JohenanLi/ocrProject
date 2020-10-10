@@ -1,0 +1,21 @@
+.img{
+position: absolute;
+width: 320px;
+height: 261px;
+left: 27px;
+top: 173px;
+}
+
+.font{
+    position: absolute;
+width: 320px;
+height: 87px;
+left: 27px;
+top: 86px;
+
+font-family: Roboto;
+font-style: normal;
+font-weight: 300;
+font-size: 40px;
+line-height: 47px;
+}
