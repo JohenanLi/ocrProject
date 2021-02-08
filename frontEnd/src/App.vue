@@ -34,6 +34,12 @@
                 </svg>
                 <span slot="label">分析</span>
             </tabbar-item>
+            <tabbar-item :selected="navIndex == 5" link="/user">
+                <svg slot="icon" class="nav-item nav-user-item">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#nav-user"></use>
+                </svg>
+                <span slot="label">我的</span>
+            </tabbar-item>
         </tabbar>
         <!--/导航条-->
 
@@ -104,6 +110,11 @@
             height: 22px;
         }
         &.nav-chart-item{
+            margin-top: 5px;
+            width: 23px;
+            height: 23px;
+        }
+        &.nav-user-item{
             margin-top: 5px;
             width: 23px;
             height: 23px;

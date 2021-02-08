@@ -9,6 +9,8 @@ import Consumption from '../views/account/children/Consumption.vue'
 import Earn from '../views/account/children/Earn.vue'
 import Bill from '../views/bill/Bill.vue'
 import Chart from '../views/chart/Chart.vue'
+import User from '../views/user/User.vue'
+
 
 import Tool from '../assets/lib/Tool'
 
@@ -86,7 +88,16 @@ const router = new Router({
             meta: {
                 status: 6
             }
+        },
+        {
+            path: '/user',
+            name:'user',
+            component: User,
+            meta:{
+                status: 7
+            }
         }
+
     ]
 });
 
