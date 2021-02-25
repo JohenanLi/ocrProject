@@ -1,21 +1,65 @@
 from django.shortcuts import render
-from django.contrib.auth.models import User,Group
-from rest_framework import viewsets
-from rest_framework import permissions
-from .serializers import UserSerializer,GroupSerializer
 
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+# Create your views here.
+from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import *
+from . import ser
+from Account.models import Account
 
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
+from django.http import HttpResponse,JsonResponse
+import json
+
+
+class UserLogin(APIView):
+    '用户登录视图类'
+    authentication_classes = []
+    # 登录不需要认证
+
+    def post(self, request):
+        username = request.POST.get('username').strip()
+        pwd = request.POST.get('password').strip()
+        if not all([username, pwd]):
+            return Response({'info': '参数不完整', 'code': 400})
+        user = UserProfile.objects.filter(username=username).first()
+        user.check_pwd(pwd)
+        # 登录成功后生成token
+        res = {'info': 'success', 'code': 200}
+        CalcTotalBalance(user)
+        res['data'] = ser.UserInfoSer(user).data
+        return Response(res)
+
+
+class UserRegister(CreateAPIView):
+    """用户注册视图"""
+    authentication_classes = []
+    # 用户注册不需要认证
+    serializer_class = ser.CreateUserSer
+
+
+class UserInfoList(ListAPIView):
+    """用户详情页视图"""
+    serializer_class = ser.UserInfoSer
+    queryset = UserProfile.objects.all()
+
+
+def CalcTotalBalance(userGet):
+    allAccounts = Account.objects.filter(user=userGet)
+    total_balance: float = 0.0
+    for one in allAccounts:
+        if one.consumption_or_earn:
+            total_balance += one.sum_value
+        else:
+            total_balance -= one.sum_value
+    userGet.total_balance = total_balance
+    userGet.save()
+    return total_balance
+
+
+def FetchTotalBalance(request):
+    user_id = request.POST.get('user_id')
+    userGet = UserProfile.objects.filter(id=user_id).first()
+    total_balance = CalcTotalBalance(userGet)
+    res = {'total_balance': total_balance}
+    return JsonResponse(res,safe=False)
