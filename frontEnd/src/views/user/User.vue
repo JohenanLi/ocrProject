@@ -110,8 +110,8 @@ export default {
           // 密码输入错误时重新聚焦输入框
           this.$refs.pwd.focus();
         } else {
-          alert("欧克欧克");
-          this.$store.commit("login", res.data);
+          console.log(res.data.data)
+          this.$store.commit("login", res.data.data);
         }
       });
     },

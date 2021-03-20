@@ -10,6 +10,9 @@ import http from "@/utils/http";
 export const loginByPwd = (params) => http.post('/users/login/', params);
 // // 密码修改
 // export const modifyPassword= (params) => http.put('/login/modifyPassword', params);
+//fetchBalance
+export const fetchBalance = (params) => http.post('/users/fetch/',params);
+// 
 
 
 
