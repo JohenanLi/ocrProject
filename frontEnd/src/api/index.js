@@ -12,6 +12,7 @@ export const loginByPwd = (params) => http.post('/users/login/', params);
 // export const modifyPassword= (params) => http.put('/login/modifyPassword', params);
 //fetchBalance
 export const fetchBalance = (params) => http.post('/users/fetch/',params);
+export const createAccount = (params) => http.post("/account/",params);
 // 
 
 

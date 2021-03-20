@@ -37,6 +37,7 @@
     import Tool from '../../../assets/lib/Tool'
     import Util from '../../../assets/lib/Util'
     import types from '../../../store/mutation-types'
+    import {createAccount} from '@/api/index'
     export default {
         name: 'consumption',
         created () {
@@ -75,16 +76,21 @@
                     return;
                 }
                 var bill = {
-                    _id: Date.parse(new Date()),
+                    // _id: Date.parse(new Date()),
                     sum_value: this.sum_value,
                     date_value: this.date_value,
                     time_value: this.time_value,
                     remarks_value: this.remarks_value,
-                    account_type: this.account_type,
+                    account_type: this.account_type[0],
                     billTypeNumber: this.billTypeNumber(this.account_type),
-                    consumption_or_earn: 0
+                    consumption_or_earn: 0,
+                    user:this.$store.getters.getUser_id
                 };
-                Util.Bill.save(bill);
+                // Util.Bill.save(bill);
+                console.log(bill);
+                createAccount(bill).then((res)=>{
+                    console.log(res);
+                })
                 this.showMsg('记账成功');
                 this.resetValue();
             },

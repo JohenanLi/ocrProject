@@ -9,7 +9,7 @@ class Account(models.Model):
     sum_value = models.FloatField("消费或收入金额", max_length=10)
     date_value = models.DateField('消费日期')
     time_value = models.TimeField('消费时间')
-    remarkd_value = models.CharField('备注', max_length=100)
+    remarks_value = models.CharField('备注', max_length=100, blank=True)
     account_type = models.CharField('消费类型', max_length=20)
     billTypeNumber = models.CharField('简称', max_length=20)
     consumption_or_earn = models.BooleanField('消费或收入')  # 1为收入 #0为支出
