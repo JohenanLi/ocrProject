@@ -66,11 +66,7 @@ export default {
       }
     },
     tel(newVal, oldVal) {
-      this.tel = this.tel.replace(/\s+/g, "").replace(/\D/g, "");
-      if (isNaN(newVal) || newVal.length > 11) {
-        this.tel = oldVal;
-        return;
-      }
+ 
       if (this.pwd.length > 0) {
         this.loginDisabled = false;
         this.type = "danger";
@@ -106,7 +102,6 @@ export default {
         if (res.data.code !== 200) {
           console.log(res);
           this.errMsg = res.data.msg;
-          alert(this.errMsg);
           // 密码输入错误时重新聚焦输入框
           this.$refs.pwd.focus();
         } else {
