@@ -21,13 +21,18 @@ class UserLogin(APIView):
         username = request.POST.get('username').strip()
         pwd = request.POST.get('password').strip()
         if not all([username, pwd]):
-            return Response({'info': '参数不完整', 'code': 400})
+            return Response({'msg': '参数不完整', 'code': 400})
         user = UserProfile.objects.filter(username=username).first()
-        user.check_pwd(pwd)
-        # 登录成功后生成token
-        res = {'info': 'success', 'code': 200}
-        CalcTotalBalance(user)
-        res['data'] = ser.UserInfoSer(user).data
+        try:
+            user.check_pwd(pwd)
+            # 登录成功后生成token
+            res = {'msg': 'success', 'code': 200}
+            CalcTotalBalance(user)
+            res['data'] = ser.UserInfoSer(user).data
+            print(res)
+        except:
+            res = {'msg': '用户名或密码错误', 'code': 404}
+        print(res)
         return Response(res)
 
 

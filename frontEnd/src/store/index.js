@@ -12,7 +12,8 @@ Vue.use(Vuex);
 const state = {
     is_not_first: true,
     animate_name: 'vux-pop-in',
-    nav_index: 1
+    nav_index: 1,
+    phone: localStorage.getItem("phone"),
 };
 
 /**
@@ -43,5 +44,6 @@ const mutations = {
 export default new Vuex.Store({
     state,
     modules,
-    mutations
+    mutations,
+    types
 })

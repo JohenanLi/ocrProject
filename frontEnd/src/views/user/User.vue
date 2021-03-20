@@ -41,9 +41,10 @@
 // 引入组件Cell CellGroup
 import { Cell, CellGroup, Icon } from "vant";
 import NavBar from "@/components/NavBar";
-import loginByPwd from "@/api";
+import {loginByPwd} from "@/api/index";
 export default {
-  name: "Login",
+  name: "LoginByPwd",
+  components: {NavBar},
   mounted() {
     // 输入框聚焦
   
@@ -101,11 +102,15 @@ export default {
         password: this.pwd,
       };
       loginByPwd(params).then((res) => {
-        if (res.code !== 200) {
-          this.errMsg = res.msg;
+        
+        if (res.data.code !== 200) {
+          console.log(res);
+          this.errMsg = res.data.msg;
+          alert(this.errMsg);
           // 密码输入错误时重新聚焦输入框
           this.$refs.pwd.focus();
         } else {
+          alert("欧克欧克");
           this.$store.commit("login", res.data);
         }
       });
