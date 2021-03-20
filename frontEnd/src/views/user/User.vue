@@ -41,11 +41,12 @@
 // 引入组件Cell CellGroup
 import { Cell, CellGroup, Icon } from "vant";
 import NavBar from "@/components/NavBar";
-import { loginByPwd } from "@/api";
+import loginByPwd from "@/api";
 export default {
   name: "Login",
   mounted() {
     // 输入框聚焦
+  
     if (!this.tel) {
       this.$refs.phone.focus();
     } else {
@@ -94,9 +95,6 @@ export default {
   },
   methods: {
     // 登录
-    loginByPwd(params) {
-      axios.get();
-    },
     login() {
       let params = {
         username: this.tel,
