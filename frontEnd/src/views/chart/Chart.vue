@@ -26,6 +26,7 @@
     import headTitle from '../../components/head-title.vue'
     import Util from '../../assets/lib/Util'
     import { Scroller } from 'vux'
+    import { queryAccount } from"@/api/index"
     export default {
         name: 'chart',
         data () {
@@ -99,31 +100,39 @@
                 this.scrollTop = pos.top;
             },
             fetchBillData () {
-                var bill_arr = Util.Bill.query();
+                queryAccount().then((res)=>{
+                    var bill_arr = res.data;
                 bill_arr.forEach((item,index) =>{
-                    if ( item.account_type[0] == '水果零食' )
+                    console.log(item.account_type,item.sum_value);
+                    if ( item.account_type == '水果零食' ){
                         this.consumption_chart_arr[0] = this.consumption_chart_arr[0] + (+item.sum_value);
-                    else if ( item.account_type[0] == '餐饮伙食' )
+                        console.log("!!!!!!!");
+                    }
+
+                    else if ( item.account_type == '餐饮伙食' )
                         this.consumption_chart_arr[1] = this.consumption_chart_arr[1] + (+item.sum_value);
-                    else if ( item.account_type[0] == '出行旅游' )
+                    else if ( item.account_type == '出行旅游' )
                         this.consumption_chart_arr[2] = this.consumption_chart_arr[2] + (+item.sum_value);
-                    else if ( item.account_type[0] == '网上购物' )
+                    else if ( item.account_type == '网上购物' )
                         this.consumption_chart_arr[3] = this.consumption_chart_arr[3] + (+item.sum_value);
-                    else if ( item.account_type[0] == '生活日常' )
+                    else if ( item.account_type == '生活日常' )
                         this.consumption_chart_arr[4] = this.consumption_chart_arr[4] + (+item.sum_value);
-                    else if ( item.account_type[0] == '租房水电' )
+                    else if ( item.account_type == '租房水电' )
                         this.consumption_chart_arr[5] = this.consumption_chart_arr[5] + (+item.sum_value);
-                    else if ( item.account_type[0] == '医疗药物' )
+                    else if ( item.account_type == '医疗药物' )
                         this.consumption_chart_arr[6] = this.consumption_chart_arr[6] + (+item.sum_value);
-                    else if ( item.account_type[0] == '其它消费' )
+                    else if ( item.account_type == '其它消费' )
                         this.consumption_chart_arr[7] = this.consumption_chart_arr[7] + (+item.sum_value);
-                    else if ( item.account_type[0] == '基本工资' )
+                    else if ( item.account_type == '基本工资' )
                         this.earn_chart_arr[0] = this.earn_chart_arr[0] + (+item.sum_value);
-                    else if ( item.account_type[0] == '公司福利' )
+                    else if ( item.account_type == '公司福利' )
                         this.earn_chart_arr[1] = this.earn_chart_arr[1] + (+item.sum_value);
-                    else if ( item.account_type[0] == '其它入账' )
+                    else if ( item.account_type == '其它入账' )
                         this.earn_chart_arr[2] = this.earn_chart_arr[2] + (+item.sum_value);
                 });
+                console.log(this.consumption_chart_arr,this.earn_chart_arr);
+                })
+                
             }
         }
     }

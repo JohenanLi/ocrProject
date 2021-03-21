@@ -13,6 +13,7 @@ export const loginByPwd = (params) => http.post('/users/login/', params);
 //fetchBalance
 export const fetchBalance = (params) => http.post('/users/fetch/',params);
 export const createAccount = (params) => http.post("/account/",params);
+export const queryAccount = () => http.get('/account/');
 // 
 
 

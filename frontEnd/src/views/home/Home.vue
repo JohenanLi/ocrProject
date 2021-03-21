@@ -77,7 +77,6 @@ export default {
         user_id: this.$store.getters.getUser_id,
       };
       fetchBalance(params).then((res) => {
-        console.log(res.data.total_balance);
         this.total_balance = res.data.total_balance;
         this.$nextTick(() => {
           new CountUp("total_balance", 0, this.total_balance, 2, 2).start();
