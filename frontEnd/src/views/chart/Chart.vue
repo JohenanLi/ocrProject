@@ -18,10 +18,10 @@
             <h2 class="chart-title">入账状况：</h2>
             <canvas id="earn-chart" width="400" height="400"></canvas>
           </div>
-          <div>
+          <!-- <div>
             <h2 class="chart-title">test</h2>
             <canvas id="myChart" width="400" height="400"></canvas>
-          </div>
+          </div> -->
         </div>
       </Scroller >
     </div>
@@ -39,6 +39,7 @@ export default {
     return {
       consumption_chart_arr: [0, 0, 0, 0, 0, 0, 0, 0],
       earn_chart_arr: [0, 0, 0],
+      user_id:this.$store.getters.getUser_id
     };
   },
   components: {
@@ -101,47 +102,47 @@ export default {
         type: "pie",
         data: earn_data,
       });
-      var ctx = document.getElementById("myChart").getContext("2d");
-      var myChart = new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-          datasets: [
-            {
-              label: "# of Votes",
-              data: [6879987, 0, 0, 0, 0, 0, 12344, 0],
-              backgroundColor: [
-                "rgba(255, 99, 132, 0.2)",
-                "rgba(54, 162, 235, 0.2)",
-                "rgba(255, 206, 86, 0.2)",
-                "rgba(75, 192, 192, 0.2)",
-                "rgba(153, 102, 255, 0.2)",
-                "rgba(255, 159, 64, 0.2)",
-              ],
-              borderColor: [
-                "rgba(255,99,132,1)",
-                "rgba(54, 162, 235, 1)",
-                "rgba(255, 206, 86, 1)",
-                "rgba(75, 192, 192, 1)",
-                "rgba(153, 102, 255, 1)",
-                "rgba(255, 159, 64, 1)",
-              ],
-              borderWidth: 1,
-            },
-          ],
-        },
-        options: {
-          scales: {
-            yAxes: [
-              {
-                ticks: {
-                  beginAtZero: true,
-                },
-              },
-            ],
-          },
-        },
-      });
+    //   var ctx = document.getElementById("myChart").getContext("2d");
+    //   var myChart = new Chart(ctx, {
+    //     type: "pie",
+    //     data: {
+    //       labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+    //       datasets: [
+    //         {
+    //           label: "# of Votes",
+    //           data: [11.11,22.22,33.33,0,0,0,0],
+    //           backgroundColor: [
+    //             "rgba(255, 99, 132, 0.2)",
+    //             "rgba(54, 162, 235, 0.2)",
+    //             "rgba(255, 206, 86, 0.2)",
+    //             "rgba(75, 192, 192, 0.2)",
+    //             "rgba(153, 102, 255, 0.2)",
+    //             "rgba(255, 159, 64, 0.2)",
+    //           ],
+    //           borderColor: [
+    //             "rgba(255,99,132,1)",
+    //             "rgba(54, 162, 235, 1)",
+    //             "rgba(255, 206, 86, 1)",
+    //             "rgba(75, 192, 192, 1)",
+    //             "rgba(153, 102, 255, 1)",
+    //             "rgba(255, 159, 64, 1)",
+    //           ],
+    //           borderWidth: 1,
+    //         },
+    //       ],
+    //     },
+    //     options: {
+    //       scales: {
+    //         yAxes: [
+    //           {
+    //             ticks: {
+    //               beginAtZero: true,
+    //             },
+    //           },
+    //         ],
+    //       },
+    //     },
+    //   });
     });
   },
   methods: {
@@ -152,6 +153,8 @@ export default {
       queryAccount().then((res) => {
         var bill_arr = res.data;
         bill_arr.forEach((item, index) => {
+          if (item.user == this.user_id)
+          {
           if (item.account_type == "水果零食") {
             this.consumption_chart_arr[0] =
               this.consumption_chart_arr[0] + item.sum_value;
@@ -182,7 +185,9 @@ export default {
             this.earn_chart_arr[1] = this.earn_chart_arr[1] + item.sum_value;
           else if (item.account_type == "其它入账")
             this.earn_chart_arr[2] = this.earn_chart_arr[2] + item.sum_value;
+          }
         });
+        
       });
     },
   },
