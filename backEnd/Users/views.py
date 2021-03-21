@@ -9,7 +9,7 @@ from . import ser
 from Account.models import Account
 
 from django.http import HttpResponse,JsonResponse
-import json
+# import json,requests
 
 
 class UserLogin(APIView):
@@ -68,3 +68,16 @@ def FetchTotalBalance(request):
     total_balance = CalcTotalBalance(userGet)
     res = {'total_balance': total_balance}
     return JsonResponse(res,safe=False)
+
+# def getFilterAccount(request):
+#     user_id = request.GET.get('user_id')
+#     allInfo = requests.get("http://localhost:8000/account/")
+#     jsonAll = allInfo.text.strip()
+#     print(jsonAll)
+#     newList = []
+#     for oneInfo in jsonAll:
+        
+#         print(oneInfo)
+#         if oneInfo['user'] == int(user_id):
+#             newList.append(oneInfo)
+#     print(newList)
