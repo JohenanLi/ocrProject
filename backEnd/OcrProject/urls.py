@@ -16,14 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from Account.views import *
+from Account.views import AccountViewSet,filterAccountList
 router = DefaultRouter()
-router.register(r'', AccountViewSet),
-router.register(r"user",filterAccountList)
+router.register(r'', AccountViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('Users.urls')),
-    path('account/', include(router.urls))
+    path('account/', include(router.urls)),
+    path("userAccount/",filterAccountList.as_view())
 
 ]

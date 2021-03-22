@@ -4,7 +4,7 @@ from django.shortcuts import render
 from .models import Account
 from .ser import AccountSerializer
 
-from rest_framework import viewsets,mixins
+from rest_framework import viewsets,generics
 
 
 # Create your views here.
@@ -12,9 +12,15 @@ class AccountViewSet(viewsets.ModelViewSet):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
 
-class filterAccountList(mixins.ListModelMixin):
+class filterAccountList(generics.ListAPIView):
     """筛选详情页视图"""
+    serializer_class = AccountSerializer
+    user_id = 0
+    queryset = Account.objects.filter(user = user_id)
+
     def get(request):
         user_id = request.GET.get("user_id")
-        serializer_class = AccountSerializer
-        queryset = Account.objects.filter(user = user_id)
+        
+        # queryset、serializer_class是固定的
+        
+

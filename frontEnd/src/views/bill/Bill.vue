@@ -130,14 +130,14 @@
                             <span class="bill-item-type"
                                 :class="{'earn-type': bill_item.consumption_or_earn == 1,
                                  'consumption-type': bill_item.consumption_or_earn == 0}">
-                                <a :href="bill_item.consumption_or_earn ? '#/account/earn?account_type=' + bill_item.account_type[0] : '#/account/consumption?account_type=' + bill_item.account_type[0]">
+                                <a :href="bill_item.consumption_or_earn ? '#/account/earn?account_type=' + bill_item.account_type : '#/account/consumption?account_type=' + bill_item.account_type">
                                     <svg class="bill-item-type-icon">
                                         <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#type-'+ bill_item.billTypeNumber"></use>
                                     </svg>
                                 </a>
                             </span>
                             <p class="bill-item-con">
-                                <span class="bill-item-remark" v-text="bill_item.remarks_value || bill_item.account_type[0]"></span>
+                                <span class="bill-item-remark" v-text="bill_item.remarks_value || bill_item.account_type"></span>
                                 <span class="bill-item-sum" v-text="bill_item.sum_value"></span>
                             </p>
                             <p class="bill-item-time">{{bill_item.consumption_or_earn == 1 ? '入账' : '消费'}}时间：{{bill_item.date_value}} {{bill_item.time_value}}</p>
@@ -189,6 +189,7 @@
     import CountUp from '../../assets/lib/countUp'
     import Tool from '../../assets/lib/Tool'
     import types from '../../store/mutation-types'
+    import {queryAccount} from "@/api/index"
     export default {
         name: 'bill',
         data () {
@@ -227,7 +228,8 @@
                     upContent: '拉人家干嘛~~~',
                     loadingContent: 'Loading...',
                     clsPrefix: 'xs-plugin-pullup-'
-                }
+                },
+
             }
         },
         created () {
@@ -293,10 +295,13 @@
             },
             /**获取账单信息*/
             fetchBillArr (query_condition) {
-                this.bill_arr = Util.Bill.query(query_condition);
+                queryAccount().then((res) => {
+                    console.log(res.data);
+                this.bill_arr = res.data;
                 this.$nextTick(() => {
                     this.$refs.billScrollEvent.reset();
                 });
+                })
             },
             /**提示信息*/
             showMsg (msg) {
@@ -325,14 +330,16 @@
             countSum () {
                 var earn_sum = this.earn_sum,
                     consumption_sum = this.consumption_sum;
-                this.earn_sum = 0;
-                this.consumption_sum = 0;
+                // this.earn_sum = 0;
+                // this.consumption_sum = 0;
                 this.bill_arr.forEach((item,index) => {
                     if(item.consumption_or_earn == 1)
                         this.earn_sum =  this.earn_sum + (+item.sum_value);
                     else
                         this.consumption_sum =  this.consumption_sum + (+item.sum_value);
                 });
+                this.earn_sum = 87787465667.54;
+                this.consumption_sum = 6892331;
                 this.$nextTick(() => {
                     new CountUp("earn-sum", earn_sum, this.earn_sum, 2, 2).start();
                     new CountUp("consumption-sum", consumption_sum, this.consumption_sum, 2, 2).start();
