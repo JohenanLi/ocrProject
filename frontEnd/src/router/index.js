@@ -10,7 +10,7 @@ import Earn from '../views/account/children/Earn.vue'
 import Bill from '../views/bill/Bill.vue'
 import Chart from '../views/chart/Chart.vue'
 import User from '../views/user/User.vue'
-
+import Scan from '../views/scan/Scan.vue'
 
 import Tool from '../assets/lib/Tool'
 
@@ -68,6 +68,14 @@ const router = new Router({
                     meta: {
                         status: 4
                     }
+                },
+                {
+                    path: 'scan',
+                    name:'scan',
+                    component: Scan,
+                    meta:{
+                        status: 4
+                    }
                 }
             ]
         },
@@ -96,7 +104,8 @@ const router = new Router({
             meta:{
                 status: 7
             }
-        }
+        },
+
 
     ]
 });

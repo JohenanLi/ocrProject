@@ -9,7 +9,7 @@ from . import ser
 from Account.models import Account
 
 from django.http import HttpResponse,JsonResponse
-# import json,requests
+import json,requests
 
 
 class UserLogin(APIView):
@@ -81,3 +81,48 @@ def FetchTotalBalance(request):
 #         if oneInfo['user'] == int(user_id):
 #             newList.append(oneInfo)
 #     print(newList)
+
+def pushImage(request):
+    url = 'http://127.0.0.1:8089/api/tr-run/'  # 上传文件接口
+
+    # files = {
+
+    #     'file': ('tst.png',  # 文件名称
+
+    #             open('tst.png', 'rb'),  # 文件路径
+
+    #             'image/png',  # 文件类型
+
+    #             {'Expires': '0'}  # 其他参数,非必传
+
+    #             )
+
+    # }  # => 打开上传文件并且加入文件相关参数
+
+
+
+    # data = {
+
+    #     "name": "tst"
+
+    # }
+    img = request.POST.get("img",None)
+    params = {'img':img}
+
+
+    # data传入请求参数dict,files传入待上传文件参数dict
+
+    response = requests.post(url, params=params)
+    resNew = json.loads(response.text)
+    resList = resNew['data']['raw_out']
+    with open("dataSet.txt",'w') as f:
+        # for one in resList:
+        #     print(one)
+        #     f.write(one)
+        #     f.write('\n')
+        # print(resList[0])
+        # for one in resList[0]:
+        #     print(one)
+        for res in resList:
+            f.write(res[1] +'\n')
+    f.close()

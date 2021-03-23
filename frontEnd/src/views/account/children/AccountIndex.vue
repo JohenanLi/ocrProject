@@ -4,6 +4,7 @@
         <div class="go-btn-box">
             <a href="#/account/consumption" class="go-account go-consumption">消费</a>
             <a href="#/account/earn" class="go-account go-earn">入账</a>
+            <a href="#/account/scan" class="go-account go-scan">扫描</a>
         </div>
     </div>
 </template>
@@ -47,12 +48,16 @@
         line-height: 35px;
         border-radius: 5px;
         &.go-consumption{
-            background-color: #FF4949;
-            box-shadow: 0 3px 0 0 red;
+            background-color: #e96e6e;
+            box-shadow: 0 3px 0 0 rgb(247, 70, 70);
         }
         &.go-earn{
-            background-color: #69ce72;
-            box-shadow: 0 3px 0 0 #13CE66;
+            background-color: #41d5e9;
+            box-shadow: 0 3px 0 0 #07caec;
+        }
+        &.go-scan{
+            background-color: #e28ee2;
+            box-shadow: 0 3px 0 0 #e480b2;
         }
     }
 </style>

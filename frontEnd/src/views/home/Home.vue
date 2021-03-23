@@ -16,6 +16,7 @@
           >消费</a
         >
         <a href="#/account/earn" class="go-account go-earn">入账</a>
+        <a href="#/account/scan" class="go-account go-scan">扫描</a>
         <!--<span class="home-btn-item">本月可用余额</span>-->
         <!--<span class="home-btn-item">实施计划经济</span>-->
       </div>
@@ -30,7 +31,7 @@
           xlink:href="#nav-arrow"
         ></use>
       </svg>
-    </div>
+    </div>this.sum_value,
   </div>
 </template>
 <script>
@@ -38,7 +39,7 @@ import { Scroller } from "vux";
 import GestureMobile from "../../assets/lib/GestureMobile";
 import types from "../../store/mutation-types";
 import CountUp from "../../assets/lib/countUp";
-import Util from "../../assets/lib/Util";
+// import Util from "../../assets/lib/Util";
 import { fetchBalance } from "@/api/index";
 export default {
   name: "home",
@@ -75,7 +76,7 @@ export default {
     myFetch() {
       let params = {
         user_id: this.$store.getters.getUser_id,
-      };
+      };this.sum_value,
       fetchBalance(params).then((res) => {
         this.total_balance = res.data.total_balance;
         this.$nextTick(() => {
