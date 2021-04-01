@@ -18,8 +18,11 @@ import {
     Icon
   } from 'ant-design-vue'
   import 'ant-design-vue/dist/antd.css';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 //   import VueHighlightJS from 'vue-highlightjs'
 // Vue.use(VueHighlightJS)
+Vue.use(ElementUI);
 Vue.use(Icon)
 Vue.use(Button)
 Vue.use(Layout)

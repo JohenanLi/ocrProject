@@ -1,139 +1,59 @@
 <template>
-<div>
-    <a-upload
-        name="avatar"
-        listType="picture-card"
-        class="avatar-uploader"
-        :showUploadList="false"
-        :customRequest="selfUpload"
-        :beforeUpload="beforeUpload"
-        ref="upload"
-        :disabled="!canClick"
-    >
-        <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="height: 800px;width: 400px;" @click="showImgShade"/>
-        <div v-else>
-            <a-icon type="plus" />
-            <div class="ant-upload-text" >添加图片</div>
-        </div>
-        <span class="delete-img" @click="deleteImg" v-if="imageUrl">x</span>
-    </a-upload>
-    <div class="img-shade" ref="imgShade">
-        <a-icon type="close" class="close-img-shade" @click="closeImgShade"/>
-        <img :src="imageUrl" class="box">
-    </div>
+<div class="body">
+    <el-upload
+  class="upload-demo"
+  action="http://localhost:8000/users/ocr/"
+  :on-preview="handlePreview"
+  :on-remove="handleRemove"
+  :before-remove="beforeRemove"
+  multiple
+  :limit="3"
+  :on-exceed="handleExceed"
+  :file-list="fileList">
+  <el-button size="small" type="primary">点击上传</el-button>
+  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+</el-upload>
 </div>
 </template>
+
 <script>
-import { ocr } from '@/api/index';
-export default {
-    data () {
-        return {
-            imageUrl: '',
-            canClick: true,
-        }
+import {ocr} from '@/api/index'
+  export default {
+    data() {
+      return {
+        fileList: []
+      };
     },
     methods: {
-        showImgShade() {
-            this.$refs.imgShade.style.display = "block";
-        },
-        closeImgShade() {
-            this.$refs.imgShade.style.display = "none";
-        },
-        deleteImg(e) {
-            this.canClick = true;
-            this.imageUrl = '';
-            e.stopPropagation();
-        },
-        getBase64 (img, callback) {
-            const reader = new FileReader()
-            reader.addEventListener('load', () => callback(reader.result))
-            reader.readAsDataURL(img)
-        },
-        selfUpload({ action, file, onSuccess, onError, onProgress }) {
-            const base64 = new Promise(resolve => {
-                const fileReader = new FileReader();
-                fileReader.readAsDataURL(file);
-                fileReader.onload = () => {
-                    resolve(fileReader.result);
-                    let params = {
-                        img:this.imageUrl
-                    };
-                    ocr(params).then((res)=>{
-                        this.$router.push('#/account/consumption');
-                    });
-                    this.imageUrl = fileReader.result;
-                    this.canClick = false;
-                };
-            });
-            console.log(this.imageUrl);
-        },
-        beforeUpload (file) {
-            const isJPG = file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/bmp' 
-            if (!isJPG) {
-                this.$message.error('请上传图片文件');
-            }
-            const isLt2M = file.size / 1024 < 200 && file.size / 1024 > 10;
-            if (!isLt2M) {
-                this.$message.error('文件大小应在10KB~20KB之间');
-            }
-            return isJPG && isLt2M
-        },
-    },
-    mounted() {
-        this.$nextTick(function() {
-            this.$refs.upload.$el.childNodes[0].style.width = "116px";
-            this.$refs.upload.$el.childNodes[0].style.height = "156px";
-            this.$refs.upload.$el.childNodes[0].style.position = "relative";
-        })
-    } 
-};
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePreview(file) {
+        console.log(file);
+      },
+      handleExceed(files, fileList) {
+        this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      },
+      beforeRemove(file, fileList) {
+        return this.$confirm(`确定移除 ${ file.name }？`);
+      },
+        ocrTest(){
+            ocr(this.fileList).then((res)=>{
+                console.log(res)
+            })
+        }
+
+    }
+  }
 </script>
 <style scoped>
-.avatar-uploader > .ant-upload {
-    width: 128px;
-    height: 128px;
-}
-.ant-upload-select-picture-card i {
-    font-size: 32px;
-    color: #999;
-}
-
-.ant-upload-select-picture-card .ant-upload-text {
-    margin-top: 8px;
-    color: #666;
-}
-.delete-img {
-    display: inline-block;
-    position: absolute;
-    left: 100%;
-    top: 0;
-    font-size: 40px;
-}
-.delete-img:hover {
-    color: #FFF;
-}
-.img-shade {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
+.body {
+    margin: 0;
+    padding: 0;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: none;
-}
-.img-shade .box {
-    display: block;
-    margin: 50px auto;
-    max-width: 400px;
-    max-height: 560px;
-}
-.close-img-shade {
-    color: #FFF;
-    position: absolute;
-    font-size: 30px;
-    top: 20%;
-    right: 20%;
-    cursor: pointer;
+    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
 }
 </style>
-

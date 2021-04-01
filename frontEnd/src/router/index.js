@@ -11,7 +11,7 @@ import Bill from '../views/bill/Bill.vue'
 import Chart from '../views/chart/Chart.vue'
 import User from '../views/user/User.vue'
 import Scan from '../views/scan/Scan.vue'
-
+import Mine from '../views/user/Mine.vue'
 import Tool from '../assets/lib/Tool'
 
 Vue.use(Router);
@@ -105,6 +105,14 @@ const router = new Router({
                 status: 7
             }
         },
+        {
+            path:"/mine",
+            name:"mine",
+            component:Mine,
+            meta:{
+                status:8
+            }
+        }
 
 
     ]

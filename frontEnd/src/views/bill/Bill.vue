@@ -338,8 +338,8 @@
                     else
                         this.consumption_sum =  this.consumption_sum + (+item.sum_value);
                 });
-                this.earn_sum = 87787465667.54;
-                this.consumption_sum = 6892331;
+                // this.earn_sum = 87787465667.54;
+                // this.consumption_sum = 6892331;
                 this.$nextTick(() => {
                     new CountUp("earn-sum", earn_sum, this.earn_sum, 2, 2).start();
                     new CountUp("consumption-sum", consumption_sum, this.consumption_sum, 2, 2).start();
@@ -486,7 +486,7 @@
         @extend %r0;
         @extend %l0;
         @extend %df;
-        height: 40px;
+        height: 50px;
         background-color: rgba(255,255,255,.8);
     }
     .bill-sum{

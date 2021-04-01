@@ -31,7 +31,8 @@ const modules = {
 /*getters*/
 const getters = {
     //get方法
-    getUser_id: state => state.user_id
+    getUser_id: state => state.user_id,
+    getUsername: state => state.username
 };
 
 /**
@@ -60,9 +61,18 @@ const mutations = {
         // 跳转到首页
         state.user_id = data.id;
         state.username = data.username;
-        router.replace('/').catch(err => console.warn(err));
+        router.replace('/mine').catch(err => console.warn(err));
         Toast('登录成功');
     },
+    logout(state){
+        state.user_id = null;
+        state.username = null;
+        // 清除token
+        // 跳转到登录页面
+        router.replace('/')
+            .catch(err => console.warn(err));
+        Toast('退出成功')
+      },
 
     /**
    * 更新手机号
