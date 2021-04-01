@@ -17,3 +17,6 @@ class Account(models.Model):
 
     def __str__(self):
         return self.account_type
+    
+    class Meta:
+        ordering = ["-date_value"]
